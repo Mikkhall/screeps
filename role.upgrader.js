@@ -27,7 +27,7 @@ module.exports = {
         else {
             // find closest container
             let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: s =>    (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] > 50000)
+                filter: s =>    (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] > 150)
                             ||  (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 150)
             });
             // if one was found
