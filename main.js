@@ -1,45 +1,44 @@
 // import modules
 require('prototype.spawn')();
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleRepairer = require('role.repairer');
-var roleClaimer = require('role.claimer');
-var roleMinerL = require('role.miner');
-var roleMinerS = require('role.miner');
-var roleLorry = require('role.lorry');
-var roleMineralHarvester = require('role.mineralHarvester');
+let roleHarvester = require('role.harvester');
+let roleUpgrader = require('role.upgrader');
+let roleBuilder = require('role.builder');
+let roleRepairer = require('role.repairer');
+let roleClaimer = require('role.claimer');
+let roleMinerL = require('role.miner');
+let roleMinerS = require('role.miner');
+let roleLorry = require('role.lorry');
+let roleMineralHarvester = require('role.mineralHarvester');
+let roleLongDistanceHarvester = require('role.longDistanceHarvester');
 
-// 63ffec2f5798f56f946693e0
 // Game.market.deal('63fae2cdf66f5bf80532a0fd');
-// Game.market.getOrderById('63ffec2f5798f56f946693e0');
 
 module.exports.loop = function () {
-    if(Game.cpu.bucket == 10000) {
+    if(Game.cpu.bucket === 10000) {
         Game.cpu.generatePixel();
     }
     // check for memory entries of died creeps by iterating over Memory.creeps
     for (let name in Memory.creeps) {
         // and checking if the creep is still alive
-        if (Game.creeps[name] == undefined) {
+        if (Game.creeps[name] === undefined) {
             // if not, delete the memory entry
             delete Memory.creeps[name];
         }
     }
-    var towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
+    let towers = _.filter(Game.structures, s => s.structureType === STRUCTURE_TOWER);
     for (let tower of towers) {
-        var target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        let target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target) {
             tower.attack(target)
         }
     }
     /*
-    if (target == undefined) {
-        var towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
+    if (target === undefined) {
+        let towers = _.filter(Game.structures, s => s.structureType === STRUCTURE_TOWER);
         for (let tower of towers) {
             if (tower.energy > 200) {
-                var target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
+                let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (s) => s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL && s.structureType !== STRUCTURE_RAMPART
                 });
                 if (target) {
                     tower.repair(target);
@@ -53,39 +52,39 @@ module.exports.loop = function () {
     // for every creep name in Game.creeps
     for (let name in Game.creeps) {
         // get the creep object
-        var creep = Game.creeps[name];
+        let creep = Game.creeps[name];
 
         // if creep is harvester, call harvester script
-        if (creep.memory.role == 'harvester') {
+        if (creep.memory.role === 'harvester') {
             roleHarvester.run(creep);
         }
-        else if (creep.memory.role  == 'mineralHarvester') {
+        else if (creep.memory.role  === 'mineralHarvester') {
             roleMineralHarvester.run(creep);
         }
         // if creep is upgrader, call upgrader script
-        else if (creep.memory.role == 'upgrader') {
+        else if (creep.memory.role === 'upgrader') {
             roleUpgrader.run(creep);
         }
         // if creep is builder, call builder script
-        else if (creep.memory.role == 'builder') {
+        else if (creep.memory.role === 'builder') {
             roleBuilder.run(creep);
         }
         // if creep is repairer, call repairer script
-        else if (creep.memory.role == 'repairer') {
+        else if (creep.memory.role === 'repairer') {
             roleRepairer.run(creep);
         }
         // if creep is claimer, call claimer script
-        else if (creep.memory.role == 'claimer') {
+        else if (creep.memory.role === 'claimer') {
             roleClaimer.run(creep);
         }
         // if creep is miner, call miner script
-        else if (creep.memory.role == 'minerL') {
+        else if (creep.memory.role === 'minerL') {
             roleMinerL.run(creep);
         }
-        else if (creep.memory.role == 'minerS') {
+        else if (creep.memory.role === 'minerS') {
             roleMinerS.run(creep);
         }
-        else if (creep.memory.role == 'lorry') {
+        else if (creep.memory.role === 'lorry') {
             roleLorry.run(creep);
         }
     }
@@ -101,22 +100,21 @@ module.exports.loop = function () {
         // count the number of creeps alive for each role in this room
         // _.sum will count the number of properties in Game.creeps filtered by the
         //  arrow function, which checks for the creep being a specific role
-        var numberOfHarvesters = _.sum(creepsInRoom, (c) => c.memory.role == 'harvester');
-        var numberOfUpgraders = _.sum(creepsInRoom, (c) => c.memory.role == 'upgrader');
-        var numberOfBuilders = _.sum(creepsInRoom, (c) => c.memory.role == 'builder');
-        var numberOfRepairers = _.sum(creepsInRoom, (c) => c.memory.role == 'repairer');
-        var numberOfMinersL = _.sum(creepsInRoom, (c) => c.memory.role == 'minerL');
-        var numberOfMinersS = _.sum(creepsInRoom, (c) => c.memory.role == 'minerS');
-        var numberOfLorries = _.sum(creepsInRoom, (c) => c.memory.role == 'lorry');
-        var numberOfMineralHarvester = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralHarvester');
+        let numberOfHarvesters = _.sum(creepsInRoom, (c) => c.memory.role === 'harvester');
+        let numberOfUpgraders = _.sum(creepsInRoom, (c) => c.memory.role === 'upgrader');
+        let numberOfBuilders = _.sum(creepsInRoom, (c) => c.memory.role === 'builder');
+        let numberOfRepairers = _.sum(creepsInRoom, (c) => c.memory.role === 'repairer');
+        let numberOfMinersL = _.sum(creepsInRoom, (c) => c.memory.role === 'minerL');
+        let numberOfMinersS = _.sum(creepsInRoom, (c) => c.memory.role === 'minerS');
+        let numberOfLorries = _.sum(creepsInRoom, (c) => c.memory.role === 'lorry');
+        let numberOfMineralHarvester = _.sum(creepsInRoom, (c) => c.memory.role === 'mineralHarvester');
 
-        var energy = spawn.room.energyCapacityAvailable;
-        var name = undefined;
+        let energy = spawn.room.energyCapacityAvailable;
 
         // if none of the above caused a spawn command check for other roles
-        var target = spawn.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if (name == undefined && target == undefined) {
-            if (numberOfHarvesters == 0) {
+        let target = spawn.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if (target === undefined) {
+            if (numberOfHarvesters === 0) {
                 name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
             }
             // if not enough harvesters
@@ -137,7 +135,7 @@ module.exports.loop = function () {
                 name = spawn.createMiner("5bbcac119099fc012e634d64", "minerL");
             }
             // if there is a claim order defined
-            else if (spawn.memory.claimRoom != undefined) {
+            else if (spawn.memory.claimRoom !== undefined) {
                 // try to spawn a claimer
                 name = spawn.createClaimer(spawn.memory.claimRoom);
                 // if that worked
@@ -161,15 +159,15 @@ module.exports.loop = function () {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'builder');
             }
-            /**
+            /*
             else if (numberOfMineralHarvester < spawn.memory.minMineralHarvesters) {
-                var minerals = spawn.room.find(FIND_MINERALS);
-                var mineral = minerals[0];
-                if (mineral.mineralAmount != 0) {
+                let minerals = spawn.room.find(FIND_MINERALS);
+                let mineral = minerals[0];
+                if (mineral.mineralAmount !== 0) {
                     name = spawn.createMineralHarvester(energy, 'mineralHarvester');
                 }
             }
-            **/
+            */
         }
         /*
         // Terminal trade execution
@@ -185,10 +183,10 @@ module.exports.loop = function () {
             minPrice = 0.03;
         }
         // Terminal trade execution
-        if (spawn.room.terminal && tradeResource != 0) {
+        if (spawn.room.terminal && tradeResource !== 0) {
             if (spawn.room.terminal.store[RESOURCE_ENERGY] >= 200 && spawn.room.terminal.store[tradeResource] >= 100) {
-                var orders = Game.market.getAllOrders(order => order.resourceType == tradeResource &&
-                                                      order.type == ORDER_BUY &&
+                let orders = Game.market.getAllOrders(order => order.resourceType === tradeResource &&
+                                                      order.type === ORDER_BUY &&
                                                       order.remainingAmount >= 100);
                 //console.log(tradeResource, ' buy orders found: ' + orders.length);
                 orders = _.sortBy(orders, "price");
@@ -201,8 +199,8 @@ module.exports.loop = function () {
                 }
                 //console.log('Best price: ' + orders[0].price);
                 if (orders[0].price > minPrice) {
-                    var result = Game.market.deal(orders[0].id, sellAmount, spawn.room.name);
-                    if (result == 0) {
+                    let result = Game.market.deal(orders[0].id, sellAmount, spawn.room.name);
+                    if (result === 0) {
                         console.log('Order completed successfully');
                     }
                 }
