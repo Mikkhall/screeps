@@ -30,7 +30,7 @@ module.exports = {
                     // the second argument for findClosestByPath is an object which takes
                     // a property called filter which can be a function
                     // we use the arrow operator to define it
-                    filter: (s) =>  (s.structureType == STRUCTURE_STORAGE && s.energy < s.energyCapacity / 2)
+                    filter: (s) =>  (s.structureType == STRUCTURE_STORAGE && s.energy < s.store.getCapacity() / 2)
                                  || (s.structureType == STRUCTURE_TERMINAL && s.energy < s.energyCapacity / 2)
                                  
                 });
