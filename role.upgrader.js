@@ -20,16 +20,22 @@ module.exports = {
             // try to upgrade the controller
             if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 // if not in range, move towards the controller
-                creep.moveTo(creep.room.controller, {reusePath: 0});
+                creep.moveTo(creep.room.storage, {reusePath: 0});
+                //creep.moveTo(creep.room.controller, {reusePath: 0});
             }
         }
             // if creep is supposed to get energy
         else {
             // find closest container
             let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: s =>    (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] > 150)
-                            ||  (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 150)
+                filter: s =>    (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] > 200)
+                            ||  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] > 200)
             });
+            if (container == undefined) {
+                container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: s =>    s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 1000
+                });
+            }
             // if one was found
             if (container != undefined) {
                 // try to withdraw energy, if the container is not in range
