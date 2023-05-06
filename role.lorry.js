@@ -30,9 +30,8 @@ module.exports = {
                     // the second argument for findClosestByPath is an object which takes
                     // a property called filter which can be a function
                     // we use the arrow operator to define it
-                    filter: (s) =>  (s.structureType == STRUCTURE_STORAGE)
-                                 || (s.structureType == STRUCTURE_TERMINAL && s.energy < s.energyCapacity / 2)
-                                 
+                    filter: (s) =>  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 2)
+                                 || (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)
                 });
             }
 
@@ -48,7 +47,7 @@ module.exports = {
         // if creep is supposed to get energy
         else {
             // find closest container
-            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 50)});
+            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 100)});
             if (target != undefined) {
                 if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
@@ -56,14 +55,19 @@ module.exports = {
             }
             else {
                 let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 400
+                    filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 500
                 });
                 
-                /*
+                
                 if (container == undefined) {
-                    container = creep.room.terminal;
+                    if (creep.room.storage != undefined && creep.room.storage.store[RESOURCE_ENERGY] > 500) {
+                        container = creep.room.storage;
+                    }
+                    else if (creep.room.terminal != undefined && creep.room.terminal.store[RESOURCE_ENERGY] > 10000) {
+                        container = creep.room.terminal;
+                    }
                 }
-                */
+                
                 
                 // if one was found
                 if (container != undefined) {

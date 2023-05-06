@@ -9,8 +9,11 @@ module.exports = {
         if (_.sum(creep.carry) != creep.carryCapacity) {
             creep.memory.working = false;
         }
-        if (_.sum(creep.carry == 0)) {
-            if (creep.ticksToLive <= 300) {
+        if (creep.ticksToLive <= 50) {
+            if ((_.sum(creep.carry) != 0)) {
+                creep.memory.working = true
+            }
+            else {
                 creep.suicide();
             }
         }

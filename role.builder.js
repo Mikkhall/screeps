@@ -44,11 +44,15 @@ module.exports = {
         }
         // if creep is supposed to get energy
         else {
-            // find closest container
             let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: s => (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
-                             s.store[RESOURCE_ENERGY] > 150
+                filter: s =>    (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] > 1000)
+                            ||  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] > 1000)
             });
+            if (container == undefined) {
+                container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: s =>    s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 1000
+                });
+            }
             // if one was found
             if (container != undefined) {
                 // try to withdraw energy, if the container is not in range

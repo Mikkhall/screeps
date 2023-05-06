@@ -60,9 +60,16 @@ module.exports = function() {
 
     // create a new function for StructureSpawn
     StructureSpawn.prototype.createMiner =
-        function (sourceId, role) {
-            return this.createCreep([WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE], undefined,
-                                    { role: role, sourceId: sourceId });
+        function (sourceId, energy) {
+            var body = [MOVE]
+            for (let i = 0; i < Math.min(Math.floor(energy / 100), 5); i++){
+                body.push(WORK);
+            }
+            if (energy >= 700) {
+                body.push(WORK, MOVE, MOVE);
+            }
+            return this.createCreep(body, undefined,
+                                    { role: "miner", sourceId: sourceId });
         };
 
     // create a new function for StructureSpawn
@@ -70,8 +77,8 @@ module.exports = function() {
         function (energy) {
             // create a body with twice as many CARRY as MOVE parts
             var numberOfParts = Math.floor(energy / 150);
-            if (numberOfParts > 4) {
-                numberOfParts = 4;
+            if (numberOfParts > 5) {
+                numberOfParts = 5;
             }
             var body = [];
             for (let i = 0; i < numberOfParts * 2; i++) {
@@ -86,7 +93,7 @@ module.exports = function() {
         };
     StructureSpawn.prototype.createMineralHarvester =
         function (energy, roleName) {
-            var numberOfParts = Math.floor(energy / 950);
+            var numberOfParts = Math.floor(energy / 1000);
             if (numberOfParts > 2) {
                 numberOfParts = 2;
             }
@@ -94,10 +101,10 @@ module.exports = function() {
             for (let i = 0; i < numberOfParts * 5; i++) {
                 body.push(WORK);
             }
-            for (let i = 0; i < numberOfParts * 2; i++) {
+            for (let i = 0; i < numberOfParts * 5; i++) {
                 body.push(CARRY);
             }
-            for (let i = 0; i < numberOfParts * 7; i++) {
+            for (let i = 0; i < numberOfParts * 5; i++) {
                 body.push(MOVE);
             }
             return this.createCreep(body, undefined, { role: roleName, working: false });
