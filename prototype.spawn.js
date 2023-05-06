@@ -61,12 +61,9 @@ module.exports = function() {
     // create a new function for StructureSpawn
     StructureSpawn.prototype.createMiner =
         function (sourceId, energy) {
-            var body = [MOVE]
-            for (let i = 0; i < Math.min(Math.floor(energy / 100), 5); i++){
+            var body = [MOVE, MOVE]
+            for (let i = 0; i < Math.min(Math.floor(energy / 100) - 1, 6); i++){
                 body.push(WORK);
-            }
-            if (energy >= 700) {
-                body.push(WORK, MOVE, MOVE);
             }
             return this.createCreep(body, undefined,
                                     { role: "miner", sourceId: sourceId });
