@@ -5,6 +5,7 @@ let roleUpgrader = require('role.upgrader');
 let roleBuilder = require('role.builder');
 let roleRepairer = require('role.repairer');
 let roleClaimer = require('role.claimer');
+let roleDismantler = require('role.dismantler');
 let roleMiner = require('role.miner');
 let roleLorry = require('role.lorry');
 let roleMineralHarvester = require('role.mineralHarvester');
