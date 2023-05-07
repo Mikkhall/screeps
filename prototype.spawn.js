@@ -3,12 +3,12 @@ module.exports = function() {
     StructureSpawn.prototype.createCustomCreep =
         function(energy, roleName) {
             // create a balanced body as big as possible with the given energy
-            var numberOfParts = Math.floor(energy / 300);
+            var numberOfParts = Math.floor(energy / 200);
             if (numberOfParts > 5) {
                 numberOfParts = 5;
             }
             var body = [];
-            for (let i = 0; i < numberOfParts*2; i++) {
+            for (let i = 0; i < numberOfParts*1; i++) {
                 body.push(WORK);
             }
             for (let i = 0; i < numberOfParts*1; i++) {
@@ -61,9 +61,12 @@ module.exports = function() {
     // create a new function for StructureSpawn
     StructureSpawn.prototype.createMiner =
         function (sourceId, energy) {
-            var body = [MOVE, MOVE]
-            for (let i = 0; i < Math.min(Math.floor(energy / 100) - 1, 6); i++){
+            var body = [MOVE]
+            for (let i = 0; i < Math.min(Math.floor((energy - 50) / 100), 5); i++){
                 body.push(WORK);
+            }
+            if (energy >= 800) {
+                body.push(WORK, MOVE, MOVE);
             }
             return this.createCreep(body, undefined,
                                     { role: "miner", sourceId: sourceId });
