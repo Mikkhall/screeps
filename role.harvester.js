@@ -59,6 +59,12 @@ module.exports = {
                 // move towards the source
                 creep.moveTo(source);
             }
+            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 50)});
+            if (target != undefined) {
+                if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+            }
         }
     }
 };

@@ -47,7 +47,7 @@ module.exports = {
         // if creep is supposed to get energy
         else {
             // find closest container
-            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 100)});
+            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
             if (target != undefined) {
                 if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);

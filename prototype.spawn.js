@@ -3,12 +3,12 @@ module.exports = function() {
     StructureSpawn.prototype.createCustomCreep =
         function(energy, roleName) {
             // create a balanced body as big as possible with the given energy
-            var numberOfParts = Math.floor(energy / 200);
+            var numberOfParts = Math.floor(energy / 300);
             if (numberOfParts > 5) {
                 numberOfParts = 5;
             }
             var body = [];
-            for (let i = 0; i < numberOfParts*1; i++) {
+            for (let i = 0; i < numberOfParts*2; i++) {
                 body.push(WORK);
             }
             for (let i = 0; i < numberOfParts*1; i++) {
