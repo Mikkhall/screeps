@@ -198,7 +198,9 @@ module.exports.loop = function () {
                     name = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], null, {role: 'dismantler', working: false});
                 }
             }
-            
+            if (name != undefined) {
+                spawn.spawning.setDirections([BOTTOM_LEFT, BOTTOM, LEFT]);
+            }
         }
         
         
