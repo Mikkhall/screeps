@@ -195,7 +195,7 @@ module.exports.loop = function () {
             else if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}})) {
                 let walls = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}});
                 if (numberOfDismantlers < walls.length) {
-                    name = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], null, {role: 'dismantler', working = false});
+                    name = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], null, {role: 'dismantler', working: false});
                 }
             }
             
