@@ -192,12 +192,12 @@ module.exports.loop = function () {
                     name = spawn.createMineralHarvester(energy, 'mineralHarvester');
                 }
             }
-            else if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}})) {
-                let walls = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}});
-                if (numberOfDismantlers < walls.length) {
-                    name = spawn.createCustomCreep(energy, 'dismantler');
-                }
-            }
+            // else if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}})) {
+            //     let walls = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}});
+            //     if (numberOfDismantlers < walls.length) {
+            //         name = spawn.createCustomCreep(energy, 'dismantler');
+            //     }
+            // }
             
         }
         
