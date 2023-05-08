@@ -1,4 +1,4 @@
-let roleBuilder = require('role.builder');
+let roleUpgrader = require('role.upgrader');
 
 module.exports = {
     // a function to run the logic for this role
@@ -14,7 +14,7 @@ module.exports = {
             creep.memory.working = true;
         }
         if (creep.memory.working == true) {
-            roleBuilder.run(creep);
+            roleUpgrader.run(creep);
         }
         else {
             const target = creep.pos.findClosestByRange(FIND_STRUCTURES,
