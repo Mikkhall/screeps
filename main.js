@@ -95,6 +95,9 @@ module.exports.loop = function () {
         else if (creep.memory.role == 'lorry') {
             roleLorry.run(creep);
         }
+        else if (creep.memory.role == 'dismantler') {
+            roleDismantler.run(creep);
+        }
     }
 
     // iterate over all the spawns
@@ -114,6 +117,7 @@ module.exports.loop = function () {
         let numberOfRepairers = _.sum(creepsInRoom, (c) => c.memory.role == 'repairer');
         let numberOfLorries = _.sum(creepsInRoom, (c) => c.memory.role == 'lorry');
         let numberOfMineralHarvester = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralHarvester');
+        let numberOfDismantlers = _.sum(creepsInRoom, (c) => c.memory.role == 'dismantler');
 
         let energy = spawn.room.energyCapacityAvailable;
 
@@ -178,7 +182,6 @@ module.exports.loop = function () {
                     delete spawn.memory.claimRoom;
                 }
             }
-            
             else if (numberOfMineralHarvester < spawn.memory.minMineralHarvesters && spawn.room.terminal.store.getUsedCapacity() - spawn.room.terminal.store[RESOURCE_ENERGY] < 100000) {
                 let minerals = spawn.room.find(FIND_MINERALS);
                 let mineral = minerals[0];
@@ -187,6 +190,12 @@ module.exports.loop = function () {
                 }
                 else if (mineral.mineralAmount != 0 && numberOfMineralHarvester < 1) {
                     name = spawn.createMineralHarvester(energy, 'mineralHarvester');
+                }
+            }
+            else if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}})) {
+                let walls = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}});
+                if (numberOfDismantlers < walls.length) {
+                    name = spawn.createCustomCreep(energy, 'dismantler');
                 }
             }
             

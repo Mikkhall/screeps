@@ -25,13 +25,6 @@ module.exports = {
             if (structure == undefined) {
                 structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: (s) => (s.structureType == STRUCTURE_TOWER) && s.energy < s.energyCapacity});
             }
-            /*
-            if (structure == undefined && creep.room.terminal.store.energy < 200000) {
-                structure = creep.room.terminal;
-            }/**
-            if (structure == undefined && creep.room.powerSpawn.energy < energyCapacity) {
-                structure = creep.room.powerSpawn;
-            }**/
             // if we found one
             if (structure != undefined) {
                 // try to transfer energy, if it is not in range
