@@ -10,6 +10,7 @@ let roleMiner = require('role.miner');
 let roleLorry = require('role.lorry');
 let roleMineralHarvester = require('role.mineralHarvester');
 let roleLongDistanceHarvester = require('role.longDistanceHarvester');
+let roleAttacker = require('role.attacker');
 
 // Game.market.deal('63ffec2f5798f56f946693e0');
 /*
@@ -93,6 +94,9 @@ module.exports.loop = function () {
         }
         else if (creep.memory.role == 'dismantler') {
             roleDismantler.run(creep);
+        }
+        else if (creep.memory.role == 'attacker') {
+            roleAttacker.run(creep);
         }
     }
 
