@@ -8,7 +8,7 @@ module.exports = {
 
         let target = creep.pos.findClosestByRange(FIND_HOSTILE_SPAWNS);
         if (target == undefined) {
-            target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+            target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         }
         if(target) {
             if(creep.attack(target) == ERR_NOT_IN_RANGE) {
