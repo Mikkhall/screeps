@@ -55,10 +55,6 @@ module.exports.loop = function () {
             }
         }
     }
-    /*
-    }*/
-    
-    
     
     // for every creep name in Game.creeps
     for (let name in Game.creeps) {
