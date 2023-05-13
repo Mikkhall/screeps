@@ -11,9 +11,15 @@ module.exports = {
             target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         }
         if(target) {
-            if(creep.attack(target) == ERR_NOT_IN_RANGE) {
+            if (creep.attack(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
             }
+        }
+        else {if(creep.room.controller) {
+            if(creep.signController(creep.room.controller, "Blocked") == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller);
+            }
+        }
         }
     }
 };
