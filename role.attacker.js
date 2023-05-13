@@ -17,3 +17,9 @@ module.exports = {
         }
     }
 };
+
+/*
+Game.spawns['Spawn3'].spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK], 'attacker1', {
+    memory: {role: 'attacker', target: 'E41S2'}
+});
+*/
