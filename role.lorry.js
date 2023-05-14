@@ -47,8 +47,7 @@ module.exports = {
         // if creep is supposed to get energy
         else {
             // find closest container
-
-            target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
+            let target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
             if (target != undefined) {
                 if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
@@ -73,8 +72,8 @@ module.exports = {
                         container = creep.room.terminal;
                     }
                 }
-                
-                
+
+
                 // if one was found
                 if (container != undefined) {
                     // try to withdraw energy, if the container is not in range
