@@ -63,7 +63,8 @@ module.exports = {
                 // try to withdraw energy, if the container is not in range
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     // move towards it
-                    creep.moveTo(container);
+                    const path = creep.pos.findPathTo(container);
+                    creep.moveByPath(path);
                 }
             }
             else {
