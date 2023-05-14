@@ -46,23 +46,30 @@ module.exports = {
         }
         // if creep is supposed to get energy
         else {
+            let container = creep.pos.findClosestByPath(FIND_RUINS, {
+                filter: s =>    s.store[RESOURCE_ENERGY] > 0
+            });
+
+            // if one was found
+            if (container != undefined) {
+                // try to withdraw energy, if the container is not in range
+                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    creep.moveTo(container);
+                }
+                return;
+            }
             // find closest container
-            let target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
-            if (target != undefined) {
-                if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+            container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
+            if (container != undefined) {
+                if (creep.pickup(container) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(container);
                 }
             }
             else {
-                let container = creep.pos.findClosestByPath(FIND_RUINS, {
-                    filter: s =>    s.store[RESOURCE_ENERGY] > 0
+                container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 50
                 });
-
-                if (container == undefined) {
-                    container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                        filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 50
-                    });
-                }
 
                 if (container == undefined) {
                     if (creep.room.storage != undefined && creep.room.storage.store[RESOURCE_ENERGY] > 500) {
