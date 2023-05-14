@@ -23,14 +23,18 @@ module.exports = {
         }
             // if creep is supposed to get energy
         else {
-            // find closest container
-            let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: s =>    (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] > 2000)
-                            ||  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] > 2000)
+            let container = creep.pos.findClosestByPath(FIND_RUINS, {
+                filter: s =>    s.store[RESOURCE_ENERGY] > 0
             });
             if (container == undefined) {
                 container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    filter: s =>    s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 50
+                    filter: s =>    (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] > 1000)
+                        ||  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] > 1000)
+                });
+            }
+            if (container == undefined) {
+                container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: s =>    s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100
                 });
             }
             // if one was found
@@ -38,15 +42,18 @@ module.exports = {
                 // try to withdraw energy, if the container is not in range
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     // move towards it
-                    creep.moveTo(container, {reusePath: 20});
+                    const path = creep.pos.findPathTo(container);
+                    creep.moveByPath(path);
                 }
             }
-            if (container == undefined) {
-                var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            else {
+                // find closest source
+                let source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
                 // try to harvest energy, if the source is not in range
                 if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     // move towards it
-                    creep.moveTo(source);
+                    const path = creep.pos.findPathTo(source);
+                    creep.moveByPath(path);
                 }
             }
         }
