@@ -23,11 +23,12 @@ Game.market.createOrder({
     totalAmount: 1,
     roomName: "W15S37"
 });
+if(Game.cpu.bucket == 10000) {
+    Game.cpu.generatePixel();
+}
  */
+
 module.exports.loop = function () {
-    if(Game.cpu.bucket == 10000) {
-        Game.cpu.generatePixel();
-    }
     //console.log(Game.cpu.bucket);
     
     // check for memory entries of died creeps by iterating over Memory.creeps
