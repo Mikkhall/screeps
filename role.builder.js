@@ -49,6 +49,11 @@ module.exports = {
                             ||  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] > 1000)
             });
             if (container == undefined) {
+                container = creep.pos.findClosestByPath(FIND_RUINS, {
+                    filter: s =>    s.store[RESOURCE_ENERGY] > 0
+                });
+            }
+            if (container == undefined) {
                 container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: s =>    s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100
                 });

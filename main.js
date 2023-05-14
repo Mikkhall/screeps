@@ -12,6 +12,8 @@ let roleMineralHarvester = require('role.mineralHarvester');
 let roleLongDistanceHarvester = require('role.longDistanceHarvester');
 let roleAttacker = require('role.attacker');
 
+// Game.creeps.creep.drop(RESOURCE_ENERGY)
+
 // Game.market.deal('63ffec2f5798f56f946693e0');
 /*
 Game.market.createOrder({
