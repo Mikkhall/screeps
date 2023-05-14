@@ -16,6 +16,7 @@ module.exports = {
         // if creep is supposed to transfer energy to a structure
         if (creep.memory.working == true) {
             // find closest spawn, extension or tower which is not full
+
             var structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
                              || s.structureType == STRUCTURE_EXTENSION)
@@ -41,7 +42,13 @@ module.exports = {
         // if creep is supposed to harvest energy from source
         else {
             // find closest source
-            var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            let source = creep.pos.findClosestByPath(FIND_RUINS, {
+                filter: s =>    s.store[RESOURCE_ENERGY] > 0
+            });
+
+            if (source == undefined) {
+                source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            }
 
             if (source == undefined) {
                 creep.memory.working == true;
