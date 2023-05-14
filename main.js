@@ -144,17 +144,17 @@ module.exports.loop = function () {
                 }
             }
 
+            if (numberOfHarvesters == 0 && numberOfLorries == 0) {
+                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
+            }
             // if not enough harvesters
-            if (numberOfHarvesters < spawn.memory.minHarvesters) {
+            else if (numberOfHarvesters < spawn.memory.minHarvesters) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'harvester');
             }
             else if (numberOfLorries < spawn.memory.minLorries) {
                 // try to spawn one
                 name = spawn.createLorry(energy);
-            }
-            else if (numberOfHarvesters == 0 && numberOfLorries == 0) {
-                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
             }
             // if not enough repairers
             else if (numberOfRepairers < spawn.memory.minRepairers) {
