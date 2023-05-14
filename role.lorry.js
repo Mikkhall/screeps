@@ -47,18 +47,24 @@ module.exports = {
         // if creep is supposed to get energy
         else {
             // find closest container
-            const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
+
+            target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
             if (target != undefined) {
                 if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
             }
             else {
-                let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 50
+                let container = creep.pos.findClosestByPath(FIND_RUINS, {
+                    filter: s =>    s.store[RESOURCE_ENERGY] > 0
                 });
-                
-                
+
+                if (container == undefined) {
+                    container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                        filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 50
+                    });
+                }
+
                 if (container == undefined) {
                     if (creep.room.storage != undefined && creep.room.storage.store[RESOURCE_ENERGY] > 500) {
                         container = creep.room.storage;
