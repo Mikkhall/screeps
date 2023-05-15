@@ -42,9 +42,6 @@ module.exports = {
             }
             // find closest spawn, extension or tower which is not full
             let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                // the second argument for findClosestByPath is an object which takes
-                // a property called filter which can be a function
-                // we use the arrow operator to define it
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
                         || s.structureType == STRUCTURE_EXTENSION
                         || s.structureType == STRUCTURE_TOWER)
@@ -98,11 +95,17 @@ module.exports = {
                 }
                 return;
             }
-
-            container = creep.pos.findClosestByPath(FIND_RUINS, {
-                filter: s =>    s.store.getUsedCapacity() > 0
+            let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+                filter: (s) => (s.structureType == STRUCTURE_SPAWN
+                        || s.structureType == STRUCTURE_EXTENSION
+                        || s.structureType == STRUCTURE_TOWER)
+                    && s.energy < s.energyCapacity
             });
-
+            if (container == undefined && structure == undefined) {
+                container = creep.pos.findClosestByPath(FIND_RUINS, {
+                    filter: s => s.store.getUsedCapacity() > 0
+                });
+            }
             if (container != undefined) {
 
                 for(let resourceType in container.store) {
@@ -113,6 +116,7 @@ module.exports = {
                 }
                 return;
             }
+
             // find closest container
             container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 50)});
             if (container != undefined) {
