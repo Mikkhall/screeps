@@ -72,6 +72,18 @@ module.exports = {
                 }
                 return;
             }
+            else {
+                container = creep.pos.findClosestByPath(FIND_RUINS, {
+                    filter: s =>    s.store.getUsedCapacity() > 0
+                });
+                for(const resourceType in container.store) {
+                    if (creep.withdraw(structure, resourceType) == ERR_NOT_IN_RANGE) {
+                        // move towards it
+                        creep.moveTo(structure);
+                    }
+                }
+                return;
+            }
             // find closest container
             container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 50)});
             if (container != undefined) {
