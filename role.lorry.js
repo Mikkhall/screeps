@@ -42,6 +42,7 @@ module.exports = {
                     // move towards it
                     creep.moveTo(structure);
                 }
+
             }
         }
         // if creep is supposed to get energy
