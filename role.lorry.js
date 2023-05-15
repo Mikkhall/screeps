@@ -8,9 +8,13 @@ module.exports = {
             creep.memory.working = false;
         }
         // if creep is harvesting energy but is full
-        else if (creep.memory.working == false && creep.carry.energy == creep.carryCapacity) {
+        else if (creep.memory.working == false && creep.store.getFreeCapacity() == 0) {
             // switch state
             creep.memory.working = true;
+        }
+
+        if (creep.store.getFreeCapacity() == creep.store.getCapacity() && creep.ticksToLive <= 50) {
+            creep.suicide();
         }
 
         // if creep is supposed to transfer energy to a structure
@@ -42,9 +46,9 @@ module.exports = {
                 // a property called filter which can be a function
                 // we use the arrow operator to define it
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
-                             || s.structureType == STRUCTURE_EXTENSION
-                             || s.structureType == STRUCTURE_TOWER)
-                             && s.energy < s.energyCapacity
+                        || s.structureType == STRUCTURE_EXTENSION
+                        || s.structureType == STRUCTURE_TOWER)
+                    && s.energy < s.energyCapacity
             });
             // if we found one
             if (structure != undefined) {
@@ -62,7 +66,7 @@ module.exports = {
                     // a property called filter which can be a function
                     // we use the arrow operator to define it
                     filter: (s) =>  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 2)
-                                 || (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)
+                        || (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)
                 });
 
                 // if we found one
@@ -94,14 +98,17 @@ module.exports = {
                 }
                 return;
             }
-            else {
-                container = creep.pos.findClosestByPath(FIND_RUINS, {
-                    filter: s =>    s.store.getUsedCapacity() > 0
-                });
-                for(const resourceType in RESOURCES_ALL) {
-                    if (creep.withdraw(structure, resourceType) == ERR_NOT_IN_RANGE) {
+
+            container = creep.pos.findClosestByPath(FIND_RUINS, {
+                filter: s =>    s.store.getUsedCapacity() > 0
+            });
+
+            if (container != undefined) {
+
+                for(let resourceType in container.store) {
+                    if (creep.withdraw(container, resourceType) == ERR_NOT_IN_RANGE) {
                         // move towards it
-                        creep.moveTo(structure);
+                        creep.moveTo(container);
                     }
                 }
                 return;
