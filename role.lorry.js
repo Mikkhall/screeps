@@ -25,16 +25,6 @@ module.exports = {
                              || s.structureType == STRUCTURE_TOWER)
                              && s.energy < s.energyCapacity
             });
-            if (structure == undefined) {
-                var structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                    // the second argument for findClosestByPath is an object which takes
-                    // a property called filter which can be a function
-                    // we use the arrow operator to define it
-                    filter: (s) =>  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 2)
-                                 || (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)
-                });
-            }
-
             // if we found one
             if (structure != undefined) {
                 // try to transfer energy, if it is not in range
@@ -42,8 +32,31 @@ module.exports = {
                     // move towards it
                     creep.moveTo(structure);
                 }
-
+                return;
             }
+
+            if (structure == undefined) {
+                structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+                    // the second argument for findClosestByPath is an object which takes
+                    // a property called filter which can be a function
+                    // we use the arrow operator to define it
+                    filter: (s) =>  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 2)
+                                 || (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)
+                });
+
+                // if we found one
+                if (structure != undefined) {
+                    // try to transfer energy, if it is not in range
+                    for(const resourceType in creep.carry) {
+                        if (creep.transfer(structure, resourceType) == ERR_NOT_IN_RANGE) {
+                            // move towards it
+                            creep.moveTo(structure);
+                        }
+                    }
+                }
+            }
+
+
         }
         // if creep is supposed to get energy
         else {
@@ -60,8 +73,20 @@ module.exports = {
                 }
                 return;
             }
+            else {
+                container = creep.pos.findClosestByPath(FIND_RUINS, {
+                    filter: s =>    s.store.getUsedCapacity() > 0
+                });
+                for(const resourceType in RESOURCES_ALL) {
+                    if (creep.withdraw(structure, resourceType) == ERR_NOT_IN_RANGE) {
+                        // move towards it
+                        creep.moveTo(structure);
+                    }
+                }
+                return;
+            }
             // find closest container
-            container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 1)});
+            container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 50)});
             if (container != undefined) {
                 if (creep.pickup(container) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
