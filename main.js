@@ -50,7 +50,7 @@ module.exports.loop = function () {
             for (let tower of towers) {
                 if (tower.energy > 200) {
                     let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (s) => s.hits < s.hitsMax / 10 && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
+                        filter: (s) => s.hits && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
                     });
                     if (target) {
                         tower.repair(target);
