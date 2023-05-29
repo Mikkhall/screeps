@@ -128,24 +128,6 @@ module.exports.loop = function () {
         let target = spawn.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target == undefined) {
             // check if all sources have miners
-            let sources = room.find(FIND_SOURCES);
-            // iterate over all sources
-            for (let source of sources) {
-                // if the source has no miner
-                if (!_.some(creepsInRoom, c => c.memory.role == 'miner' && c.memory.sourceId == source.id)) {
-                    // check whether the source has a container
-                    /** @type {Array.StructureContainer} */
-                    let containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
-                        filter: s => s.structureType == STRUCTURE_CONTAINER
-                    });
-                    // if there is a container next to the source
-                    if (containers.length > 0) {
-                        // spawn a miner
-                        name = spawn.createMiner(source.id, energy);
-                        break;
-                    }
-                }
-            }
 
             if (numberOfHarvesters == 0 && numberOfLorries == 0) {
                 name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
@@ -199,6 +181,24 @@ module.exports.loop = function () {
                 let walls = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}});
                 if (numberOfDismantlers < 3 && walls.length > 1) {
                     name = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], null, {role: 'dismantler', working: false});
+                }
+            }
+            let sources = room.find(FIND_SOURCES);
+            // iterate over all sources
+            for (let source of sources) {
+                // if the source has no miner
+                if (!_.some(creepsInRoom, c => c.memory.role == 'miner' && c.memory.sourceId == source.id)) {
+                    // check whether the source has a container
+                    /** @type {Array.StructureContainer} */
+                    let containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
+                        filter: s => s.structureType == STRUCTURE_CONTAINER
+                    });
+                    // if there is a container next to the source
+                    if (containers.length > 0) {
+                        // spawn a miner
+                        name = spawn.createMiner(source.id, energy);
+                        break;
+                    }
                 }
             }
         }
