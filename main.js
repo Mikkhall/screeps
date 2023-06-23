@@ -177,12 +177,14 @@ module.exports.loop = function () {
                     name = spawn.createMineralHarvester(energy, 'mineralHarvester');
                 }
             }
+            /*
             else if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}})) {
                 let walls = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_WALL}});
                 if (numberOfDismantlers < 3 && walls.length > 1) {
                     name = spawn.createCreep([WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], null, {role: 'dismantler', working: false});
                 }
             }
+            */
             let sources = room.find(FIND_SOURCES);
             // iterate over all sources
             for (let source of sources) {
