@@ -21,7 +21,7 @@ module.exports = {
                 creep.memory.working = false;
             }
             if (container != undefined) {
-                for(let resourceType in container.store) {
+                for(let resourceType in creep.store) {
                     if (resourceType == RESOURCE_ENERGY) {
                         continue;
                     }
