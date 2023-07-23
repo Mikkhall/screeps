@@ -220,7 +220,7 @@ module.exports.loop = function () {
         if (spawn.room.terminal != undefined) {
             let tradeResource = 0;
             let sellAmount = 0;
-            let minPrice = 100_000_000_000_000_000;
+            let minPrice = 100000000000000000;
 
             if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
                 tradeResource = RESOURCE_HYDROGEN;
