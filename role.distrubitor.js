@@ -14,23 +14,6 @@ module.exports = {
         }
 
         if (creep.memory.working == true) {
-            let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                filter: (s) =>  (s.structureType == STRUCTURE_STORAGE)
-            });
-
-            if (structure != undefined) {
-                for(const resourceType in creep.carry) {
-                    if (creep.transfer(structure, resourceType) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(structure);
-                    }
-                }
-            }
-            else {
-                creep.memory.working = false;
-            }
-        }
-
-        else {
             let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: s => s.structureType == STRUCTURE_TERMINAL
             });
@@ -46,6 +29,23 @@ module.exports = {
                         creep.moveTo(container);
                     }
                 }
+            }
+        }
+
+        else {
+            let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+                filter: (s) =>  (s.structureType == STRUCTURE_STORAGE)
+            });
+
+            if (structure != undefined) {
+                for(const resourceType in creep.carry) {
+                    if (creep.transfer(structure, resourceType) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(structure);
+                    }
+                }
+            }
+            else {
+                creep.memory.working = false;
             }
         }
     }
