@@ -165,7 +165,7 @@ module.exports.loop = function () {
                     delete spawn.memory.claimRoom;
                 }
             }
-            else if (spawn.room.terminal.store.getUsedCapacity() - spawn.room.terminal.store[RESOURCE_ENERGY] < 100000) {
+            else if (spawn.room.terminal != undefined && spawn.room.terminal.store.getUsedCapacity() - spawn.room.terminal.store[RESOURCE_ENERGY] < 100000) {
                 let minerals = spawn.room.find(FIND_MINERALS);
                 let mineral = minerals[0];
                 if (mineral.mineralAmount != 0 && numberOfMineralHarvester < 1) {
