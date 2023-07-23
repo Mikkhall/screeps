@@ -31,7 +31,7 @@ if(Game.cpu.bucket == 10000) {
 
 module.exports.loop = function () {
     //console.log(Game.cpu.bucket);
-    
+
     // check for memory entries of died creeps by iterating over Memory.creeps
     for (let name in Memory.creeps) {
         // and checking if the creep is still alive
@@ -47,7 +47,7 @@ module.exports.loop = function () {
             tower.attack(target)
         }
     }
-    
+
     // for every creep name in Game.creeps
     for (let name in Game.creeps) {
         // get the creep object
@@ -143,7 +143,7 @@ module.exports.loop = function () {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'builder');
             }
-            // if not enough upgraders
+                // if not enough upgraders
             // Math.floor(spawn.memory.minUpgraders * spawn.room.storage.store[RESOURCE_ENERGY] / 200000)
             else if (numberOfUpgraders < spawn.memory.minUpgraders) {
                 // try to spawn one
@@ -203,32 +203,33 @@ module.exports.loop = function () {
             }
         }
 
-        
+
         if (spawn.room.terminal != undefined) {
             let tradeResource = 0;
             let sellAmount = 0;
             let minPrice = 100000000000000000;
 
-            if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
+            if (spawn.room.terminal.store[RESOURCE_HYDROGEN] >= 100) {
                 tradeResource = RESOURCE_HYDROGEN;
                 sellAmount = spawn.room.terminal.store[tradeResource];
                 minPrice = 20;
             }
-            else if (spawn.room.terminal.store[RESOURCE_UTRIUM]) {
+            else if (spawn.room.terminal.store[RESOURCE_UTRIUM] >= 100) {
                 tradeResource = RESOURCE_UTRIUM;
                 sellAmount = spawn.room.terminal.store[tradeResource];
                 minPrice = 10;
             }
-            else if (spawn.room.terminal.store[RESOURCE_CATALYST]) {
+            else if (spawn.room.terminal.store[RESOURCE_CATALYST] >= 100) {
                 tradeResource = RESOURCE_CATALYST;
                 sellAmount = spawn.room.terminal.store[tradeResource];
                 minPrice = 20;
             }
 
             if (tradeResource != 0) {
+                //console.log(tradeResource);
                 if (spawn.room.terminal.store[RESOURCE_ENERGY] >= 200 && spawn.room.terminal.store[tradeResource] >= 100) {
                     let orders = Game.market.getAllOrders(order => order.resourceType == tradeResource &&
-                                                order.type == ORDER_BUY);
+                        order.type == ORDER_BUY);
                     //console.log(tradeResource, ' buy orders found: ' + orders.length);
                     orders = _.sortBy(orders, "price");
                     orders.reverse();
