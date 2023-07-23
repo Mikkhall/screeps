@@ -120,18 +120,17 @@ module.exports.loop = function () {
         let target = spawn.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target == undefined) {
             // check if all sources have miners
-
-            if (numberOfHarvesters == 0 && numberOfLorries == 0) {
-                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
+            if (numberOfLorries < spawn.memory.minLorries) {
+                // try to spawn one
+                name = spawn.createLorry(energy);
             }
             // if not enough harvesters
             else if (numberOfHarvesters < spawn.memory.minHarvesters) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'harvester');
             }
-            else if (numberOfLorries < spawn.memory.minLorries) {
-                // try to spawn one
-                name = spawn.createLorry(energy);
+            else if (numberOfHarvesters == 0 && numberOfLorries == 0) {
+                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
             }
             // if not enough repairers
             else if (numberOfRepairers < spawn.memory.minRepairers) {
@@ -241,6 +240,10 @@ module.exports.loop = function () {
                 }
             }
         }
+    }
+    let history = Game.market.getHistory(RESOURCE_ENERGY);
+    for (let e of history) {
+        console.log(e["avgPrice"], e["stddevPrice"]);
     }
     console.log(Game.cpu.getUsed());
     console.log(Game.cpu.bucket)
