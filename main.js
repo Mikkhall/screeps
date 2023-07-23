@@ -165,7 +165,7 @@ module.exports.loop = function () {
             else if (numberOfDistrubitor < spawn.memory.minDistrubitors) {
                 if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}})) {
                     // try to spawn one
-                    name = spawn.createCustomCreep(energy, 'distrubitor');
+                    name = spawn.createDistrubitor(energy, 'distrubitor');
                 }
             }
             // if there is a claim order defined

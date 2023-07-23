@@ -91,6 +91,23 @@ module.exports = function() {
             // create creep with the created body and the role 'lorry'
             return this.createCreep(body, undefined, { role: 'lorry', working: false });
         };
+    StructureSpawn.prototype.createDistrubitor =
+        function (energy) {
+            // create a body with twice as many CARRY as MOVE parts
+            var numberOfParts = Math.floor(energy / 150);
+            if (numberOfParts > 5) {
+                numberOfParts = 5;
+            }
+            var body = [];
+            for (let i = 0; i < numberOfParts * 2; i++) {
+                body.push(CARRY);
+            }
+            for (let i = 0; i < numberOfParts; i++) {
+                body.push(MOVE);
+            }
+
+            return this.createCreep(body, undefined, { role: 'distrubitor', working: false });
+        };
     StructureSpawn.prototype.createMineralHarvester =
         function (energy, roleName) {
             var numberOfParts = Math.floor(energy / 1000);
