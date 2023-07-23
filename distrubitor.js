@@ -36,6 +36,9 @@ module.exports = {
             });
             if (container != undefined) {
                 for(let resourceType in container.store) {
+                    if (resourceType == RESOURCE_ENERGY) {
+                        continue;
+                    }
                     if (creep.withdraw(container, resourceType) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(container);
                     }
