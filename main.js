@@ -168,10 +168,7 @@ module.exports.loop = function () {
             else if (spawn.room.terminal.store.getUsedCapacity() - spawn.room.terminal.store[RESOURCE_ENERGY] < 100000) {
                 let minerals = spawn.room.find(FIND_MINERALS);
                 let mineral = minerals[0];
-                if (mineral.mineralAmount > 2000) {
-                    name = spawn.createMineralHarvester(energy, 'mineralHarvester');
-                }
-                else if (mineral.mineralAmount != 0 && numberOfMineralHarvester < 1) {
+                if (mineral.mineralAmount != 0 && numberOfMineralHarvester < 1) {
                     name = spawn.createMineralHarvester(energy, 'mineralHarvester');
                 }
             }
