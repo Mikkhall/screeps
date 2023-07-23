@@ -46,19 +46,6 @@ module.exports.loop = function () {
         if (target) {
             tower.attack(target)
         }
-        if (target == undefined) {
-            let towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
-            for (let tower of towers) {
-                if (tower.energy > 200) {
-                    let target = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (s) => s.hits && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
-                    });
-                    if (target) {
-                        tower.repair(target);
-                    }
-                }
-            }
-        }
     }
     
     // for every creep name in Game.creeps

@@ -25,7 +25,7 @@ module.exports = {
                     if (resourceType == RESOURCE_ENERGY) {
                         continue;
                     }
-                    if (creep.withdraw(container, resourceType) == ERR_NOT_IN_RANGE) {
+                    if (creep.transfer(container, resourceType) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(container);
                     }
                 }
@@ -38,8 +38,8 @@ module.exports = {
             });
 
             if (structure != undefined) {
-                for(const resourceType in creep.carry) {
-                    if (creep.transfer(structure, resourceType) == ERR_NOT_IN_RANGE) {
+                for(const resourceType in structure.carry) {
+                    if (creep.withdraw(structure, resourceType) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(structure);
                     }
                 }
