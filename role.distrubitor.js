@@ -18,7 +18,7 @@ module.exports = {
                 filter: s => s.structureType == STRUCTURE_TERMINAL
             });
             if (container.store.getUsedCapacity([RESOURCE_ENERGY]) == container.store.getUsedCapacity()) {
-                creep.memory.working = true;
+                creep.memory.working = false;
             }
             if (container != undefined) {
                 for(let resourceType in container.store) {
