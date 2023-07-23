@@ -34,7 +34,7 @@ module.exports = {
                 creep.memory.working = true;
             }
             if (structure != undefined) {
-                for(const resourceType in structure.carry) {
+                for(const resourceType in structure.store) {
                     if (resourceType == RESOURCE_ENERGY) {
                         continue;
                     }
