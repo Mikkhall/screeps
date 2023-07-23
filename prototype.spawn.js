@@ -4,8 +4,8 @@ module.exports = function() {
         function(energy, roleName) {
             // create a balanced body as big as possible with the given energy
             var numberOfParts = Math.floor(energy / 200);
-            if (numberOfParts > 5) {
-                numberOfParts = 5;
+            if (numberOfParts > 10) {
+                numberOfParts = 10;
             }
             var body = [];
             for (let i = 0; i < numberOfParts*1; i++) {
@@ -77,8 +77,8 @@ module.exports = function() {
         function (energy) {
             // create a body with twice as many CARRY as MOVE parts
             var numberOfParts = Math.floor(energy / 150);
-            if (numberOfParts > 5) {
-                numberOfParts = 5;
+            if (numberOfParts > 10) {
+                numberOfParts = 10;
             }
             var body = [];
             for (let i = 0; i < numberOfParts * 2; i++) {
