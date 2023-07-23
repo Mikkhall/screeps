@@ -33,6 +33,9 @@ module.exports = {
             if (structure.store.getUsedCapacity([RESOURCE_ENERGY]) == structure.store.getUsedCapacity()) {
                 creep.memory.working = true;
             }
+            else if (structure.store.getFreeCapacity() < 500) {
+                return;
+            }
             if (structure != undefined) {
                 for(const resourceType in structure.store) {
                     if (resourceType == RESOURCE_ENERGY) {
