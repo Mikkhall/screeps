@@ -34,6 +34,7 @@ module.exports = {
             let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: s => s.structureType == STRUCTURE_TERMINAL
             });
+            if (container.store.getUsedCapacity([RESOURCE_ENERGY]) == container.store.getUsedCapacity([resource]))
             if (container != undefined) {
                 for(let resourceType in container.store) {
                     if (resourceType == RESOURCE_ENERGY) {

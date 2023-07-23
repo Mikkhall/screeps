@@ -8,6 +8,7 @@ let roleClaimer = require('role.claimer');
 let roleDismantler = require('role.dismantler');
 let roleMiner = require('role.miner');
 let roleLorry = require('role.lorry');
+let roleDistrubitor = require('role.distrubitor');
 let roleMineralHarvester = require('role.mineralHarvester');
 let roleLongDistanceHarvester = require('role.longDistanceHarvester');
 let roleAttacker = require('role.attacker');
@@ -95,6 +96,9 @@ module.exports.loop = function () {
         else if (creep.memory.role == 'lorry') {
             roleLorry.run(creep);
         }
+        else if (creep.memory.role == 'distrubitor') {
+            roleDistrubitor.run(creep);
+        }
         else if (creep.memory.role == 'dismantler') {
             roleDismantler.run(creep);
         }
@@ -119,6 +123,7 @@ module.exports.loop = function () {
         let numberOfBuilders = _.sum(creepsInRoom, (c) => c.memory.role == 'builder');
         let numberOfRepairers = _.sum(creepsInRoom, (c) => c.memory.role == 'repairer');
         let numberOfLorries = _.sum(creepsInRoom, (c) => c.memory.role == 'lorry');
+        let numberOfDistrubitor = _.sum(creepsInRoom, (c) => c.memory.role == 'distrubitor');
         let numberOfMineralHarvester = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralHarvester');
         let numberOfDismantlers = _.sum(creepsInRoom, (c) => c.memory.role == 'dismantler');
 
@@ -156,6 +161,12 @@ module.exports.loop = function () {
             else if (numberOfUpgraders < spawn.memory.minUpgraders) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'upgrader');
+            }
+            else if (numberOfDistrubitor < spawn.memory.minDistrubitors) {
+                if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}})) {
+                    // try to spawn one
+                    name = spawn.createCustomCreep(energy, 'distrubitor');
+                }
             }
             // if there is a claim order defined
             else if (spawn.memory.claimRoom != undefined) {
@@ -207,8 +218,10 @@ module.exports.loop = function () {
 
         
         if (spawn.room.terminal != undefined) {
-            // Terminal trade execution
-            tradeResource = 0;
+            let tradeResource = 0;
+            let sellAmount = 0;
+            let minPrice = 100_000_000_000_000_000;
+
             if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
                 tradeResource = RESOURCE_HYDROGEN;
                 sellAmount = spawn.room.terminal.store[tradeResource];
@@ -224,7 +237,7 @@ module.exports.loop = function () {
                 sellAmount = spawn.room.terminal.store[tradeResource];
                 minPrice = 20;
             }
-            // Terminal trade execution
+
             if (tradeResource != 0) {
                 if (spawn.room.terminal.store[RESOURCE_ENERGY] >= 200 && spawn.room.terminal.store[tradeResource] >= 100) {
                     let orders = Game.market.getAllOrders(order => order.resourceType == tradeResource &&
