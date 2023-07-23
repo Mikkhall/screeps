@@ -119,8 +119,10 @@ module.exports.loop = function () {
         // if none of the above caused a spawn command check for other roles
         let target = spawn.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target == undefined) {
-            // check if all sources have miners
-            if (numberOfLorries < spawn.memory.minLorries) {
+            if (numberOfHarvesters == 0 && numberOfLorries == 0) {
+                name = spawn.createLorry(room.energyAvailable);
+            }
+            else if (numberOfLorries < spawn.memory.minLorries) {
                 // try to spawn one
                 name = spawn.createLorry(energy);
             }
