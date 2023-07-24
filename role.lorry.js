@@ -59,12 +59,13 @@ module.exports = {
 
             if (structure == undefined) {
                 structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                    // the second argument for findClosestByPath is an object which takes
-                    // a property called filter which can be a function
-                    // we use the arrow operator to define it
-                    filter: (s) =>  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 6)
-                        || (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)
-                });
+                    filter: (s) =>  (s.structureType == STRUCTURE_TERMINAL && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 6)});
+
+                if (structure == undefined) {
+                    structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+                        filter: (s) =>  (s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] < s.store.getCapacity() / 10 * 8)});
+                }
+
 
                 // if we found one
                 if (structure != undefined) {
