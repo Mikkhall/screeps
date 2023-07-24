@@ -122,6 +122,9 @@ module.exports.loop = function () {
             if (numberOfHarvesters == 0 && numberOfLorries == 0) {
                 name = spawn.createLorry(room.energyAvailable);
             }
+            /*else if (numberOfHarvesters == 0 && numberOfLorries == 0) {
+                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
+            }*/
             else if (numberOfLorries < spawn.memory.minLorries) {
                 // try to spawn one
                 name = spawn.createLorry(energy);
@@ -131,22 +134,18 @@ module.exports.loop = function () {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'harvester');
             }
-            else if (numberOfHarvesters == 0 && numberOfLorries == 0) {
-                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
-            }
             // if not enough repairers
-            else if (numberOfRepairers < spawn.memory.minRepairers) {
+            else if (numberOfRepairers < 1 /*spawn.memory.minRepairers*/ ) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'repairer');
             }
             // if not enough builders
-            else if (numberOfBuilders < spawn.memory.minBuilders) {
+            /*else if (numberOfBuilders < spawn.memory.minBuilders) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'builder');
-            }
+            }*/
                 // if not enough upgraders
-            // Math.floor(spawn.memory.minUpgraders * spawn.room.storage.store[RESOURCE_ENERGY] / 200000)
-            else if (numberOfUpgraders < spawn.memory.minUpgraders) {
+            else if (numberOfUpgraders < Math.floor(spawn.room.storage.store[RESOURCE_ENERGY] / 200000)) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'upgrader');
             }
