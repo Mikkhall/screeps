@@ -207,6 +207,18 @@ module.exports.loop = function () {
             let sellAmount = 0;
             let minPrice = 100000000000000000;
 
+            for (let resource in spawn.room.terminal.store) {
+                let history = Game.market.getHistory(resource);
+                let list = []
+                for (let e of history) {
+                    console.log(e["avgPrice"], e["stddevPrice"]);
+                    if (e["avgPrice"] < e["stddevPrice"]) { continue; }
+                    list.push(e["avgPrice"]);
+                }
+                let int = list.reduce((a, b) => a + b, 0) / list.length;
+                console.log(resource, int);
+            }
+
             if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
                 tradeResource = RESOURCE_HYDROGEN;
                 sellAmount = spawn.room.terminal.store[tradeResource];
@@ -242,10 +254,6 @@ module.exports.loop = function () {
                 }
             }
         }
-    }
-    let history = Game.market.getHistory(RESOURCE_ENERGY);
-    for (let e of history) {
-        console.log(e["avgPrice"], e["stddevPrice"]);
     }
     console.log(Game.cpu.getUsed());
     console.log(Game.cpu.bucket)
