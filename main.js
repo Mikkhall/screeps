@@ -261,7 +261,7 @@ module.exports.loop = function () {
                     viable = _.sortBy(viable, "price");
                     viable.reverse();
                     let sellAmount = Math.min(viable[0].amount, spawn.room.terminal.store[resource]);
-                    console.log('Best price: ' + viable[0].price);
+                    console.log(resource, ' Best price: ' + viable[0].price);
                     let result = Game.market.deal(viable[0].id, sellAmount, spawn.room.name);
                     if (result == 0) {
                         console.log('Order completed successfully: ', resource, viable[0].price);
