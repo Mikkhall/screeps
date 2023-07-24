@@ -218,7 +218,7 @@ module.exports.loop = function () {
 
         if (Game.cpu.bucket >= 1000 && spawn.room.terminal != undefined && spawn.room.terminal.cooldown == 0) {
             for (let resource in spawn.room.terminal.store) {
-                if (resource == RESOURCE_ENERGY) { continue; }
+                if (resource == RESOURCE_ENERGY || resource == RESOURCE_POWER) { continue; }
                 try {
                     let history = Game.market.getHistory(resource);
                     let list = [];
