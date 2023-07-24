@@ -203,10 +203,8 @@ module.exports.loop = function () {
 
 
         if (spawn.room.terminal != undefined) {
-            let tradeResource = 0;
-            let sellAmount = 0;
-            let minPrice = 100000000000000000;
 
+            /*
             if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
                 tradeResource = RESOURCE_HYDROGEN;
                 sellAmount = spawn.room.terminal.store[tradeResource];
@@ -241,6 +239,7 @@ module.exports.loop = function () {
                     }
                 }
             }
+            */
 
             for (let resource in spawn.room.terminal.store) {
                 if (resource == RESOURCE_ENERGY) { continue; }
@@ -253,15 +252,20 @@ module.exports.loop = function () {
                         list.push(e["avgPrice"]);
                     }
                     if (list.length < 4) { continue; }
-                    minPrice = list.reduce((a, b) => a + b, 0) / list.length;
-                    console.log(resource, int);
+                    let minPrice = list.reduce((a, b) => a + b, 0) / list.length;
+                    console.log(resource, minPrice);
                     let orders = Game.market.getAllOrders({type: ORDER_BUY, resourceType: resource});
                     let viable = orders.filter(o => o.price > minPrice && o.remainingAmount > 0);
+                    orders = []; // not for use later
                     if (viable.length === 0) { continue; }
                     viable = _.sortBy(viable, "price");
                     viable.reverse();
-                    sellAmount = Math.min(viable[0].amount, spawn.room.terminal.store[resource]);
+                    let sellAmount = Math.min(viable[0].amount, spawn.room.terminal.store[resource]);
                     console.log('Best price: ' + viable[0].price);
+                    let result = Game.market.deal(viable[0].id, sellAmount, spawn.room.name);
+                    if (result == 0) {
+                        console.log('Order completed successfully: ', resource, viable[0].price);
+                    }
                 }
                 catch ( err ) {
                     // it did not succeed, something is wrong with this resource.
