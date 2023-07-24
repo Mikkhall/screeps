@@ -216,7 +216,7 @@ module.exports.loop = function () {
         }
 
 
-        if (spawn.room.terminal != undefined && spawn.room.terminal.cooldown == 0) {
+        if (Game.cpu.bucket >= 1000 && spawn.room.terminal != undefined && spawn.room.terminal.cooldown == 0) {
             for (let resource in spawn.room.terminal.store) {
                 if (resource == RESOURCE_ENERGY) { continue; }
                 try {
