@@ -243,6 +243,7 @@ module.exports.loop = function () {
             }
 
             for (let resource in spawn.room.terminal.store) {
+                if (resource == RESOURCE_ENERGY) { continue; }
                 try {
                     let history = Game.market.getHistory(resource);
                     let list = [];
@@ -251,12 +252,20 @@ module.exports.loop = function () {
                         if (e["avgPrice"] < e["stddevPrice"]) { continue; }
                         list.push(e["avgPrice"]);
                     }
-                    let int = list.reduce((a, b) => a + b, 0) / list.length;
+                    if (list.length < 4) { continue; }
+                    minPrice = list.reduce((a, b) => a + b, 0) / list.length;
                     console.log(resource, int);
-
+                    let orders = Game.market.getAllOrders({type: ORDER_BUY, resourceType: resource});
+                    let viable = orders.filter(o => o.price > minPrice && o.remainingAmount > 0);
+                    if (viable.length === 0) { continue; }
+                    viable = _.sortBy(viable, "price");
+                    viable.reverse();
+                    sellAmount = Math.min(viable[0].amount, spawn.room.terminal.store[resource]);
+                    console.log('Best price: ' + viable[0].price);
                 }
                 catch ( err ) {
-                    console.log( err );
+                    // it did not succeed, something is wrong with this resource.
+                    // continues without trading
                 }
             }
 
