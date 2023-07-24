@@ -13,7 +13,7 @@ let roleMineralHarvester = require('role.mineralHarvester');
 let roleLongDistanceHarvester = require('role.longDistanceHarvester');
 let roleAttacker = require('role.attacker');
 
-// Game.creeps.creep.drop(RESOURCE_ENERGY)
+// Game.creeps."creep".drop(RESOURCE_ENERGY)
 
 // Game.market.deal('63ffec2f5798f56f946693e0');
 /*
@@ -22,10 +22,19 @@ Game.market.createOrder({
     resourceType: ACCESS_KEY,
     price: 675000000,
     totalAmount: 1,
-    roomName: "W15S37"
 });
 if(Game.cpu.bucket == 10000) {
     Game.cpu.generatePixel();
+}
+
+let pixelOrders = Game.market.getAllOrders({type: ORDER_SELL, resourceType: RESOURCE_PIXEL});
+pixelOrders = pixelOrders.filter(o => o.price < 50000 && o.remainingAmount > 0);
+pixelOrders = _.sortBy(pixelOrders, "price");
+pixelOrders.reverse();
+let sellAmount = pixelOrders[0].amount;
+let result = Game.market.deal(pixelOrders[0].id, sellAmount);
+if (result == 0) {
+    console.log('Pixel-order completed successfully: ', pixelOrders[0].price);
 }
  */
 
@@ -256,7 +265,7 @@ module.exports.loop = function () {
                     let viable = orders.filter(o => o.price > minPrice && o.remainingAmount > 0);
                     orders = []; // not for use later
                     if (viable.length === 0) {
-                        console.log("no buy orders", resource);
+                        // console.log("no buy orders", resource);
                         continue; }
                     viable = _.sortBy(viable, "price");
                     viable.reverse();
