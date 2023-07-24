@@ -17,25 +17,31 @@ let roleAttacker = require('role.attacker');
 
 // Game.market.deal('63ffec2f5798f56f946693e0');
 /*
+
 Game.market.createOrder({
     type: ORDER_SELL,
     resourceType: ACCESS_KEY,
     price: 675000000,
     totalAmount: 1,
 });
+
 if(Game.cpu.bucket == 10000) {
     Game.cpu.generatePixel();
 }
 
-let pixelOrders = Game.market.getAllOrders({type: ORDER_SELL, resourceType: RESOURCE_PIXEL});
-pixelOrders = pixelOrders.filter(o => o.price < 50000 && o.remainingAmount > 0);
-pixelOrders = _.sortBy(pixelOrders, "price");
-pixelOrders.reverse();
-let sellAmount = pixelOrders[0].amount;
-let result = Game.market.deal(pixelOrders[0].id, sellAmount);
-if (result == 0) {
-    console.log('Pixel-order completed successfully: ', pixelOrders[0].price);
+{
+    let pixelOrders = Game.market.getAllOrders({type: ORDER_SELL, resourceType: PIXEL});
+    pixelOrders = pixelOrders.filter(o => o.price < 50000 && o.remainingAmount > 0);
+    if (pixelOrders.length === 0) { continue; }
+    pixelOrders = _.sortBy(pixelOrders, "price");
+    pixelOrders.reverse();
+    let sellAmount = pixelOrders[0].amount;
+    let result = Game.market.deal(pixelOrders[0].id, sellAmount);
+    if (result == 0) {
+        console.log('Pixel-order completed successfully: ', pixelOrders[0].price);
+    }
 }
+
  */
 
 module.exports.loop = function () {
@@ -211,44 +217,6 @@ module.exports.loop = function () {
 
 
         if (spawn.room.terminal != undefined && spawn.room.terminal.cooldown == 0) {
-
-            /*
-            if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
-                tradeResource = RESOURCE_HYDROGEN;
-                sellAmount = spawn.room.terminal.store[tradeResource];
-                minPrice = 20;
-            }
-            else if (spawn.room.terminal.store[RESOURCE_UTRIUM]) {
-                tradeResource = RESOURCE_UTRIUM;
-                sellAmount = spawn.room.terminal.store[tradeResource];
-                minPrice = 10;
-            }
-            else if (spawn.room.terminal.store[RESOURCE_CATALYST]) {
-                tradeResource = RESOURCE_CATALYST;
-                sellAmount = spawn.room.terminal.store[tradeResource];
-                minPrice = 20;
-            }
-
-            if (tradeResource != 0) {
-                //console.log(tradeResource);
-                let orders = Game.market.getAllOrders(order => order.resourceType == tradeResource &&
-                    order.type == ORDER_BUY);
-                //console.log(tradeResource, ' buy orders found: ' + orders.length);
-                orders = _.sortBy(orders, "price");
-                orders.reverse();
-                if (sellAmount > orders[0].amount) {
-                    sellAmount = orders[0].amount;
-                }
-                //console.log('Best price: ' + orders[0].price);
-                if (orders[0].price > minPrice) {
-                    let result = Game.market.deal(orders[0].id, sellAmount, spawn.room.name);
-                    if (result == 0) {
-                        console.log('Order completed successfully: ', tradeResource, orders[0].price);
-                    }
-                }
-            }
-            */
-
             for (let resource in spawn.room.terminal.store) {
                 if (resource == RESOURCE_ENERGY) { continue; }
                 try {
