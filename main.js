@@ -202,7 +202,7 @@ module.exports.loop = function () {
         }
 
 
-        if (spawn.room.terminal != undefined) {
+        if (spawn.room.terminal != undefined && spawn.room.terminal.cooldown == 0) {
 
             /*
             if (spawn.room.terminal.store[RESOURCE_HYDROGEN]) {
