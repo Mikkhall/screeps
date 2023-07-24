@@ -15,7 +15,7 @@ let roleAttacker = require('role.attacker');
 
 // Game.creeps."creep".drop(RESOURCE_ENERGY)
 
-// Game.market.deal('63ffec2f5798f56f946693e0');
+// Game.market.deal('64a08660a7e81c796f8d3206', 1000);
 /*
 
 Game.market.createOrder({
@@ -135,11 +135,13 @@ module.exports.loop = function () {
         let target = spawn.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target == undefined) {
             if (numberOfHarvesters == 0 && numberOfLorries == 0) {
-                name = spawn.createLorry(room.energyAvailable);
+                if (room.energyAvailable > 3000) {
+                    name = spawn.createLorry(room.energyAvailable);
+                }
+                else {
+                    name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
+                }
             }
-            /*else if (numberOfHarvesters == 0 && numberOfLorries == 0) {
-                name = spawn.createCustomCreep(room.energyAvailable, 'harvester');
-            }*/
             else if (numberOfLorries < spawn.memory.minLorries) {
                 // try to spawn one
                 name = spawn.createLorry(energy);
