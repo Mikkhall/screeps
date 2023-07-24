@@ -255,7 +255,9 @@ module.exports.loop = function () {
                     let orders = Game.market.getAllOrders({type: ORDER_BUY, resourceType: resource});
                     let viable = orders.filter(o => o.price > minPrice && o.remainingAmount > 0);
                     orders = []; // not for use later
-                    if (viable.length === 0) { continue; }
+                    if (viable.length === 0) {
+                        console.log("no buy orders", resource);
+                        continue; }
                     viable = _.sortBy(viable, "price");
                     viable.reverse();
                     let sellAmount = Math.min(viable[0].amount, spawn.room.terminal.store[resource]);
