@@ -253,7 +253,6 @@ module.exports.loop = function () {
                     }
                     if (list.length < 4) { continue; }
                     let minPrice = list.reduce((a, b) => a + b, 0) / list.length;
-                    console.log(resource, minPrice);
                     let orders = Game.market.getAllOrders({type: ORDER_BUY, resourceType: resource});
                     let viable = orders.filter(o => o.price > minPrice && o.remainingAmount > 0);
                     orders = []; // not for use later
