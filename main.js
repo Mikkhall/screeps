@@ -162,10 +162,10 @@ module.exports.loop = function () {
                 name = spawn.createCustomCreep(energy, 'builder');
             }*/
                 // if not enough upgraders
-            /*else if (numberOfUpgraders < Math.floor(spawn.room.storage.store[RESOURCE_ENERGY] / 50000)) {
+            else if (numberOfUpgraders < Math.floor(spawn.room.storage.store[RESOURCE_ENERGY] / 50000)) {
                 // try to spawn one
                 name = spawn.createCustomCreep(energy, 'upgrader');
-            }*/
+            }
             else if (numberOfDistrubitor < spawn.memory.minDistrubitors) {
                 if (room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_TERMINAL}})) {
                     // try to spawn one
