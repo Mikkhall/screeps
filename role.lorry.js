@@ -86,29 +86,7 @@ module.exports = {
             let container = creep.pos.findClosestByPath(FIND_RUINS, {
                 filter: s =>    s.store[RESOURCE_ENERGY] > 0
             });
-
-            // if one was found
             if (container != undefined) {
-                // try to withdraw energy, if the container is not in range
-                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    // move towards it
-                    creep.moveTo(container);
-                }
-                return;
-            }
-            let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                filter: (s) => (s.structureType == STRUCTURE_SPAWN
-                        || s.structureType == STRUCTURE_EXTENSION
-                        || s.structureType == STRUCTURE_TOWER)
-                    && s.energy < s.energyCapacity
-            });
-            if (container == undefined && structure == undefined) {
-                container = creep.pos.findClosestByPath(FIND_RUINS, {
-                    filter: s => s.store.getUsedCapacity() > 0
-                });
-            }
-            if (container != undefined) {
-
                 for(let resourceType in container.store) {
                     if (creep.withdraw(container, resourceType) == ERR_NOT_IN_RANGE) {
                         // move towards it
@@ -119,34 +97,42 @@ module.exports = {
             }
 
             // find closest container
-            container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 50)});
+            container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 500)});
             if (container != undefined) {
                 if (creep.pickup(container) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container);
                 }
+                return;
             }
-            else {
+            container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 500
+            });
+
+            if (container == undefined) {
+                container = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (s) => (s.energy >= 100)});
+            }
+            if (container == undefined) {
                 container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: s => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100
                 });
+            }
 
-                if (container == undefined) {
-                    if (creep.room.storage != undefined && creep.room.storage.store[RESOURCE_ENERGY] > 500) {
-                        container = creep.room.storage;
-                    }
-                    else if (creep.room.terminal != undefined && creep.room.terminal.store[RESOURCE_ENERGY] > 10000) {
-                        container = creep.room.terminal;
-                    }
+            if (container == undefined) {
+                if (creep.room.storage != undefined && creep.room.storage.store[RESOURCE_ENERGY] > 500) {
+                    container = creep.room.storage;
                 }
+                else if (creep.room.terminal != undefined && creep.room.terminal.store[RESOURCE_ENERGY] > 10000) {
+                    container = creep.room.terminal;
+                }
+            }
 
 
-                // if one was found
-                if (container != undefined) {
-                    // try to withdraw energy, if the container is not in range
-                    if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        // move towards it
-                        creep.moveTo(container);
-                    }
+            // if one was found
+            if (container != undefined) {
+                // try to withdraw energy, if the container is not in range
+                if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    // move towards it
+                    creep.moveTo(container);
                 }
             }
         }
