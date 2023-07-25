@@ -234,8 +234,8 @@ module.exports.loop = function () {
                     let orders = Game.market.getAllOrders({type: ORDER_BUY, resourceType: resource});
                     let viable = orders.filter(o => o.price > minPrice && o.remainingAmount > 0);
                     orders = []; // not for use later
-                    if (viable.length < 6) {
-                        console.log("not enough buy-orders", resource);
+                    if (viable.length === 0) {
+                        // console.log("not enough buy-orders", resource);
                         continue; }
                     viable = _.sortBy(viable, "price");
                     viable.reverse();
